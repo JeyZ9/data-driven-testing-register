@@ -22,12 +22,12 @@ public class TestRegister {
 
         for(int i=1; i<row-1; i++) {
             WebDriver driver = new ChromeDriver();
-            driver.get("https://sc.npru.ac.th/sc_shortcourses/signup");
+            driver.get("http://localhost/sc_shortcourses/signup");
 
 //            Row rows = sheet.getRow(i);
 //            Cell cell = rows.createCell(4);
 
-//Thai
+            //Thai
             String nameTitleTha = sheet.getRow(i).getCell(1).toString();
             new Select(driver.findElement(By.id("nameTitleTha"))).selectByValue(nameTitleTha);
 
@@ -92,6 +92,8 @@ public class TestRegister {
                     js.executeScript("arguments[0].click();", accept);
                 }
             }
+            WebElement submitBtn = driver.findElement(By.xpath("/html/body/section/div/div/form/div[6]/button"));
+            submitBtn.submit();
 
             driver.close();
         }
