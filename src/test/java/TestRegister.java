@@ -34,7 +34,7 @@ public class TestRegister {
                 break;
             }
 
-//Thai
+            //Thai
             String nameTitleTha = sheet.getRow(i).getCell(1).toString();
             new Select(driver.findElement(By.id("nameTitleTha"))).selectByValue(nameTitleTha);
 
@@ -99,6 +99,8 @@ public class TestRegister {
                     js.executeScript("arguments[0].click();", accept);
                 }
             }
+            WebElement submitBtn = driver.findElement(By.xpath("/html/body/section/div/div/form/div[6]/button"));
+            submitBtn.submit();
 
             WebElement form = driver.findElement(By.xpath("/html/body/section/div/div/form"));
             form.submit();
