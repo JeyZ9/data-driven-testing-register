@@ -9,6 +9,8 @@ import org.openqa.selenium.support.ui.Select;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 public class TestRegister {
     @Test
     void test01() throws IOException {
@@ -29,7 +31,7 @@ public class TestRegister {
 //            Cell cell = rows.createCell(4);
             XSSFRow currentRow = sheet.getRow(i);
             if (currentRow == null) {
-                System.out.println("Skipping empty row: " + i);
+                System.out.println("Test successfully");
                 driver.quit();
                 break;
             }
@@ -91,20 +93,19 @@ public class TestRegister {
             driver.findElement(By.id("postalCode")).sendKeys(postalCode);
 
             String  acceptExcel = sheet.getRow(i).getCell(19).toString();
+            WebElement submitBtn = driver.findElement(By.xpath("/html/body/section/div/div/form/div[6]/button"));
             if (acceptExcel.toLowerCase().equals("true")) {
                 WebElement accept = driver.findElement(By.id("accept"));
 
                 JavascriptExecutor js = (JavascriptExecutor) driver;
                 if(!accept.isSelected()){
                     js.executeScript("arguments[0].click();", accept);
+                    js.executeScript("arguments[0].click();", submitBtn);
                 }
             }
-            WebElement submitBtn = driver.findElement(By.xpath("/html/body/section/div/div/form/div[6]/button"));
-            submitBtn.submit();
 
-            WebElement form = driver.findElement(By.xpath("/html/body/section/div/div/form"));
-            form.submit();
-            System.out.println("Register Successfully!");
+            WebElement alertTitle = driver.findElement(By.id("swal2-title"));
+            assertEquals("ลงทะเบียนสำเร็จ", alertTitle.getText());
 
             driver.quit();
         }
