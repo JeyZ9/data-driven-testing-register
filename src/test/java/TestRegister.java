@@ -1,3 +1,4 @@
+import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.jupiter.api.Test;
@@ -22,10 +23,16 @@ public class TestRegister {
 
         for(int i=1; i<row-1; i++) {
             WebDriver driver = new ChromeDriver();
-            driver.get("https://sc.npru.ac.th/sc_shortcourses/signup");
+            driver.get("http://localhost/sc_shortcourses/signup");
 
 //            Row rows = sheet.getRow(i);
 //            Cell cell = rows.createCell(4);
+            XSSFRow currentRow = sheet.getRow(i);
+            if (currentRow == null) {
+                System.out.println("Skipping empty row: " + i);
+                driver.quit();
+                break;
+            }
 
 //Thai
             String nameTitleTha = sheet.getRow(i).getCell(1).toString();
@@ -93,7 +100,11 @@ public class TestRegister {
                 }
             }
 
-            driver.close();
+            WebElement form = driver.findElement(By.xpath("/html/body/section/div/div/form"));
+            form.submit();
+            System.out.println("Register Successfully!");
+
+            driver.quit();
         }
     }
 }
